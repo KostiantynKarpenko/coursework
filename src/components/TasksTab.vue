@@ -41,93 +41,80 @@
     </div>
 </template>
   
-  <script>
-  // import TaskString from '@/components/TaskString.vue'
-  // import CreatingTask from '@/components/CreatingTask.vue'
+<script>
 
-  const today = new Date();
-  
-  export default {
-    name: 'TasksTab',
-    components: {
-      // TaskString,
-      // CreatingTask
+const today = new Date();
+
+export default {
+  name: 'TasksTab',
+  computed: {
+    tasks() {
+      return this.$store.getters['getTasks']
     },
-    data() {
-      return {
+    currentCategory() {
+      return this.$store.getters['currentCategory']
+    },
+    filteredTasks() {
+      return this.$store.getters['filteredTasks'](this.currentCategory)
+    },
+    creatingTask() {
+      return this.$store.getters['creatingTask'];
+    },
+    editingTaskID(){
+      return this.$store.getters['editingTaskID']
+    },
+    categories(){
+      return this.$store.getters['getCategories']
+    }
+  },
+  methods: {
+    createTask() {
+      this.$store.dispatch('createTask')
+    },
+    deleteTask(taskID){
+      this.$store.dispatch('deleteTask', taskID)
+    },
+    editTask(taskID){
+      this.$store.dispatch('editTask', taskID)
+    },
+    completeTask(task){
+      const taskCheckboxChecked = document.getElementById("taskCheckbox" + task.id).checked
+      this.$store.dispatch('completeTask', { task, taskCheckboxChecked } )
+    },
+    confirmCreatingTask(){
+      const taskName = document.getElementById("taskNameCreating").value
+      if (taskName.length > 0){
+        this.$store.dispatch('confirmCreatingTask', {
+          name: taskName,
+          id: Date.now().toString(),
+          category: this.currentCategory,
+          dateCreated: today.getFullYear() + '-' + (today.getMonth()) + '-' + today.getDate() + ' ' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(),
+          dateCompleted: null
+        })
+      }
+      else{
+        this.cancelCreatingTask();
       }
     },
-    created() {
-      
-    },
-    computed: {
-      tasks() {
-        return this.$store.getters['getTasks']
-      },
-      currentCategory() {
-        return this.$store.getters['currentCategory']
-      },
-      filteredTasks() {
-        return this.$store.getters['filteredTasks'](this.currentCategory)
-      },
-      creatingTask() {
-        return this.$store.getters['creatingTask'];
-      },
-      editingTaskID(){
-        return this.$store.getters['editingTaskID']
-      },
-      categories(){
-        return this.$store.getters['getCategories']
+    confirmEditingTask(task){
+      const taskName = document.getElementById("taskName" + task.id).value
+      const taskCategory = document.getElementById("taskCategory" + task.id).value
+      if (taskName.length > 0){
+        this.$store.dispatch('confirmEditingTask', {
+          name: taskName,
+          id: task.id,
+          category: taskCategory,
+          dateCreated: task.dateCreated,
+          dateCompleted: task.dateCompleted
+        })
       }
-    },
-    methods: {
-      createTask() {
-        this.$store.dispatch('createTask')
-      },
-      deleteTask(taskID){
-        this.$store.dispatch('deleteTask', taskID)
-      },
-      editTask(taskID){
-        this.$store.dispatch('editTask', taskID)
-      },
-      completeTask(task){
-        const taskCheckboxChecked = document.getElementById("taskCheckbox" + task.id).checked
-        this.$store.dispatch('completeTask', { task, taskCheckboxChecked } )
-      },
-      confirmCreatingTask(){
-        const taskName = document.getElementById("taskNameCreating").value
-        if (taskName.length > 0){
-          this.$store.dispatch('confirmCreatingTask', {
-            name: taskName,
-            id: Date.now().toString(),
-            category: this.currentCategory,
-            dateCreated: today.getFullYear() + '-' + (today.getMonth()) + '-' + today.getDate() + ' ' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(),
-            dateCompleted: null
-          })
-        }
-        else{
-          this.cancelCreatingTask();
-        }
-      },
-      confirmEditingTask(task){
-        const taskName = document.getElementById("taskName" + task.id).value
-        const taskCategory = document.getElementById("taskCategory" + task.id).value
-        if (taskName.length > 0){
-          this.$store.dispatch('confirmEditingTask', {
-            name: taskName,
-            id: task.id,
-            category: taskCategory,
-            dateCreated: task.dateCreated,
-            dateCompleted: task.dateCompleted
-          })
-        }
-        else{
+      else{
         this.cancelEditingTask();
-        }
-      },
-      cancelEditingTask(task){
-        this.$store.dispatch('cancelEditingTask', task)
       }
+    },
+    cancelEditingTask(task){
+      this.$store.dispatch('cancelEditingTask', task)
     }
   }
-  </script>
+}
+</script>

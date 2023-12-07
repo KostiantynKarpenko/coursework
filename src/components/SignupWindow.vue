@@ -1,15 +1,15 @@
 <template>
   <div class="login-window">
-    <h3 class="title">Login</h3>
+    <h3 class="title">Sign up</h3>
     <div class="form">
       <div class="email-input cred-input">
         <input type="text" placeholder="Email" v-model="userCred.email">
       </div>
       <div class="password-input cred-input">
-        <input type="text" placeholder="Password" v-model="userCred.firstPassword">
+        <input type="password" placeholder="Password" v-model="userCred.firstPassword">
       </div>
       <div class="password-input cred-input">
-        <input type="text" placeholder="Confirm password" v-model="userCred.secondPassword">
+        <input type="password" placeholder="Confirm password" v-model="userCred.secondPassword">
       </div>      
     </div>
     <div class="login-actions">
@@ -23,6 +23,7 @@
 import router from '@/router';
 
 export default {
+  name: 'SignupWindow',
   data(){
     return {
       userCred:{
@@ -31,11 +32,6 @@ export default {
         secondPassword: '',
       }
     }
-  },
-  name: 'SignupWindow',
-  components: {
-  },
-  props: {
   },
   methods:{
     signIn(){
@@ -54,7 +50,7 @@ export default {
         console.log('Password should contain at least 6 characters');
       }
     },
-  },
+  }
 }
 </script>
 

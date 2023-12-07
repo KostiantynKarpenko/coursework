@@ -6,8 +6,8 @@
         <input type="text" placeholder="Email" v-model="userCred.email">
       </div>
       <div class="password-input cred-input">
-        <input type="password" placeholder="Password" v-model="userCred.password">
-        <img src="../assets/img/svg/Eye.svg" alt="">
+        <input type="password" id="password" placeholder="Password" v-model="userCred.password">
+        <img src="../assets/img/svg/Eye.svg" @click="showPassword()">
       </div>
     </div>
     <div class="login-actions">
@@ -30,10 +30,6 @@ export default {
     }
   },
   name: 'LoginWindow',
-  components: {
-  },
-  props: {
-  },
   methods:{
     signIn(){
       this.$store.dispatch('signIn', this.userCred)
@@ -41,7 +37,15 @@ export default {
     signUp(){
       router.push('/signup')
     },
-  },
+    showPassword(){
+      if (document.getElementById("password").type == 'password'){
+        document.getElementById("password").type = 'text'
+      }
+      else{
+        document.getElementById("password").type = 'password'
+      }
+    }
+  }
 }
 </script>
 

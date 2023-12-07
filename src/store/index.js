@@ -6,18 +6,14 @@ Vue.use(Vuex)
 import { initializeApp } from 'firebase/app'
 import {
   getDoc,
-  // getDocs, 
-  // collection, 
   doc, 
   getFirestore,
   setDoc,
-  // deleteDoc
 } from 'firebase/firestore'
 
 import {
   createUserWithEmailAndPassword,
   getAuth,
-  // signOut,
   signInWithEmailAndPassword,
 } from 'firebase/auth'
 
@@ -36,10 +32,6 @@ const AUTH = getAuth(APP)
 function getDocFromDB(c, d){
   return getDoc(doc(DB, c, d));
 }
-
-// function getCollectionFromDB(c){
-//   return getDocs(collection(DB, c));
-// }
 
 function setLS(key, value) {
   localStorage.setItem(key, JSON.stringify(value));
@@ -276,7 +268,5 @@ export default new Vuex.Store({
       context.state.uid = getLS('uid')
       context.state.isLoggedIn = getLS('isLoggedIn')
     }
-  },
-  modules: {
   }
 })

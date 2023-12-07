@@ -37,76 +37,76 @@
     </div>
 </template>
   
-  <script>
-  
-  export default {
-    name: 'CategoriesTab',
-    data() {
-      return {
+<script>
+
+export default {
+  name: 'CategoriesTab',
+  data() {
+    return {
+    }
+  },
+  created() {
+    if (this.$store.state.uid && this.$store.state.isLoggedIn){
+      this.$store.dispatch('fetchBoard');
+    }
+  },
+  computed: {
+    categories() {
+      return this.$store.getters['getCategories'];
+    },
+    creatingCategory() {
+      return this.$store.getters['creatingCategory'];
+    },
+    currentCategory() {
+      return this.$store.getters['currentCategory'];
+    },
+    editingCategoryID(){
+      return this.$store.getters['editingCategoryID']
+    },
+  },
+  methods: {
+    createCategory(){
+      this.$store.dispatch('createCategory')
+    },
+    deleteCategory(categoryID){
+      this.$store.dispatch('deleteCategory', categoryID)
+    },
+    editCategory(category){
+      this.$store.dispatch('editCategory', category)
+    },
+    chooseCategory(categoryID){
+      this.$store.dispatch('chooseCategory', categoryID)
+    },
+    confirmEditingCategory(category){
+      const categoryName = document.getElementById("categoryName" + category.id).value
+      if (categoryName.length > 0){
+        this.$store.dispatch('confirmEditingCategory', {
+          name: categoryName,
+          id: category.id
+        })
+      }
+      else{
+        this.cancelEditingCategory();
       }
     },
-    created() {
-      if (this.$store.state.uid && this.$store.state.isLoggedIn){
-        this.$store.dispatch('fetchBoard');
+    cancelEditingCategory(){
+      this.$store.dispatch('cancelEditingCategory')
+    },
+    confirmCreatingCategory(){
+      const categoryName = document.getElementById("categoryNameCreating").value
+      if (categoryName.length > 0){
+        this.$store.dispatch('confirmCreatingCategory', {
+          name: categoryName,
+          id: Date.now().toString(),
+        })
+      }
+      else{
+        this.cancelCreatingCategory();
       }
     },
-    computed: {
-      categories() {
-        return this.$store.getters['getCategories'];
-      },
-      creatingCategory() {
-        return this.$store.getters['creatingCategory'];
-      },
-      currentCategory() {
-        return this.$store.getters['currentCategory'];
-      },
-      editingCategoryID(){
-        return this.$store.getters['editingCategoryID']
-      },
-    },
-    methods: {
-      createCategory(){
-        this.$store.dispatch('createCategory')
-      },
-      deleteCategory(categoryID){
-        this.$store.dispatch('deleteCategory', categoryID)
-      },
-      editCategory(category){
-        this.$store.dispatch('editCategory', category)
-      },
-      chooseCategory(categoryID){
-        this.$store.dispatch('chooseCategory', categoryID)
-      },
-      confirmEditingCategory(category){
-        const categoryName = document.getElementById("categoryName" + category.id).value
-        if (categoryName.length > 0){
-          this.$store.dispatch('confirmEditingCategory', {
-            name: categoryName,
-            id: category.id
-          })
-        }
-        else{
-          this.cancelEditingCategory();
-        }
-      },
-      cancelEditingCategory(){
-        this.$store.dispatch('cancelEditingCategory')
-      },
-      confirmCreatingCategory(){
-        const categoryName = document.getElementById("categoryNameCreating").value
-        if (categoryName.length > 0){
-          this.$store.dispatch('confirmCreatingCategory', {
-            name: categoryName,
-            id: Date.now().toString(),
-          })
-        }
-        else{
-          this.cancelCreatingCategory();
-        }
-      },
-      cancelCreatingCategory(){
-        this.$store.dispatch('cancelCreatingCategory')
-      }
+    cancelCreatingCategory(){
+      this.$store.dispatch('cancelCreatingCategory')
     }
   }
-  </script>
+}
+</script>
