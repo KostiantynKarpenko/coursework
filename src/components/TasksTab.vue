@@ -7,6 +7,8 @@
               <input type="checkbox" :id="'taskCheckbox' + task.id" class="task-checkbox" @click="completeTask(task)" :checked="(task.dateCompleted != null)">
               <input type="text" :id="'taskName' + task.id" :value="task.name" :readonly="!(editingTaskID == task.id)">
             </div>
+            <a>Date created: {{ task.dateCreated }}</a>
+            <a v-if="task.dateCompleted != null">Date completed: {{ task.dateCompleted }}</a>
             <div class="actions" v-if="!(editingTaskID == task.id)">
               <a class="edit action" @click="editTask(task.id)">✎</a>
               <a class="remove action" @click="deleteTask(task.id)">🗑</a>
