@@ -90,7 +90,7 @@ export default {
           name: taskName,
           id: Date.now().toString(),
           category: this.currentCategory,
-          dateCreated: today.getFullYear() + '-' + (today.getMonth()) + '-' + today.getDate() + ' ' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(),
+          dateCreated: today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + ' ' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds(),
           dateCompleted: null
         })
       }

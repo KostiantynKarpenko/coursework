@@ -161,7 +161,7 @@ export default new Vuex.Store({
       let completedTask = task;
       const taskIndex = context.state.board.tasks.findIndex(el => { return el.id === task.id; })
       if (taskCheckboxChecked){
-        completedTask.dateCompleted = today.getFullYear() + '-' + (today.getMonth()) + '-' + today.getDate() + ' ' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
+        completedTask.dateCompleted = today.getFullYear() + '-' + (today.getMonth() + 1) + '-' + today.getDate() + ' ' + today.getHours() + ":" + today.getMinutes() + ":" + today.getSeconds();
         context.state.board.tasks.splice(taskIndex, 1, completedTask);
         return context.dispatch('updateBoard')
       }
